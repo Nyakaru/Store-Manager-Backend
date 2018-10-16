@@ -27,6 +27,11 @@ class ProductResource(Resource):
             return {'message': 'Product with that name already exists.'}, 202
         product = Product(name=name, price=price)
         product = product.save()
+        if not re.match('^[a-zA-Z 0-9]+$', name):
+            return {'message': "Enter a valid product name"}, 400
+
+        if type(price) != int:
+            return {'message': "Invalid price"}, 400
 
         return {'message': 'Product successfully added.', 'product': product}, 201
 

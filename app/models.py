@@ -89,20 +89,18 @@ class Sale(Base):
 
     tablename = 'sales'
 
-    def __init__(self, sales_dict):
-        '''
-        Create a sale.
-
-        Pass in sales_dict as {sale_id: quantity}
-        '''
+    def __init__(self,products_dict):
+        
         self.id = None
-        self.sales = [
-            {'quantity': sales_dict[sale_id],
-             'sale': sale.get(id=int(sale_id)).view()}
-            for sale_id in sales_dict.keys()]
+        self.products = [
+            {'quantity': products_dict[product_id],
+             'product': Product.get(id=int(product_id)).view()}
+            for product_id in products_dict.keys()]
         self.total = self.get_total()
 
     def get_total(self):
         '''Get total cost of a sale.'''
-        return sum([i['quantity'] * i['sale']['price'] for i in self.sales])
+        return sum([i['quantity'] * i['product']['price'] for i in self.products])
 
+
+ 

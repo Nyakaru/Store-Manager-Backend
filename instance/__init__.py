@@ -5,6 +5,8 @@ from flask_restful import Api
 
 from .config import configurations
 from app.views.products import ProductResource
+from app.views.sales import SaleResource
+
 
 
 
@@ -21,6 +23,8 @@ def create_app(configuration):
 
     api.add_resource(
         ProductResource, '/api/v1/products', '/api/v1/products/<int:product_id>')
+    api.add_resource(
+        SaleResource, '/api/v1/sales', '/api/v1/sales/<int:sale_id>')
     
     
     return app

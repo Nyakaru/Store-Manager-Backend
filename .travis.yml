@@ -1,0 +1,18 @@
+language: python
+
+python:
+  - "3.6"
+
+install:
+  - pip install -r requirements.txt
+
+before_script:
+  - export APP_SECRET_KEY="something"
+
+script: 
+  - python -m pytest
+
+after_success:
+  - coveralls
+
+cache: pip

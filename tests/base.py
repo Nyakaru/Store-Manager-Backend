@@ -32,6 +32,14 @@ class BaseCase(TestCase):
             'price': None
         }
 
+        self.invalid_product_data_name = {
+            'name': "",
+            'price': 100
+        }
+
+        
+
+
         self.product1.save()
         self.sale1 = Sale({1: 2})
         self.sale1.save()

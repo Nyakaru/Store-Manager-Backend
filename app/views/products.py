@@ -30,9 +30,6 @@ class ProductResource(Resource):
         if not re.match('^[a-zA-Z 0-9]+$', name):
             return {'message': "Enter a valid product name"}, 400
 
-        if type(price) != int:
-            return {'message': "Invalid price"}, 400
-
         return {'message': 'Product successfully added.', 'product': product}, 201
 
     def get(self, product_id=None):

@@ -24,6 +24,14 @@ class TestproductResource(BaseCase):
         expected = 'Product with that name already exists.'
         self.assertEqual(loads(response.data.decode('utf-8'))
                          ['message'], expected)
+        # Using empty name.
+        response = self.client.post(
+            PRODUCTS_URL, data=self.invalid_product_data_name)
+        self.assertEqual(response.status_code, 400)
+        expected = 'Enter a valid product name'
+        self.assertEqual(loads(response.data.decode('utf-8'))
+                         ['message'], expected)
+
         # Using invalid data.
         response = self.client.post(
             PRODUCTS_URL, data=self.invalid_product_data)
@@ -63,6 +71,7 @@ class TestproductResource(BaseCase):
         expected = 'Product not found.'
         self.assertEqual(loads(response.data.decode('utf-8'))
                          ['message'], expected)
+
 
 
     

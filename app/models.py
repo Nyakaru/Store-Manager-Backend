@@ -84,7 +84,7 @@ class Product(Base):
 
 
 
-class Sales(Base):
+class Sale(Base):
     '''Sales model.'''
 
     tablename = 'sales'

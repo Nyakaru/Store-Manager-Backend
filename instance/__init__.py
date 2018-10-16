@@ -4,15 +4,15 @@ from flask import Flask
 from flask_restful import Api
 
 from .config import configurations
-from app.v1.views.products import ProductResource
-#from app.v1.views.sales import SaleResource
+from app.views.products import ProductResource
+
 
 
 def create_app(configuration):
     '''Create the flask app.'''
     
     app = Flask(__name__)
-    app.config.from_object(configurations[configuration])
+    app.config.from_object(configurations["development"])
     app.url_map.strict_slashes = False
     app_context = app.app_context()
     app_context.push()
@@ -24,3 +24,5 @@ def create_app(configuration):
     
     
     return app
+
+    

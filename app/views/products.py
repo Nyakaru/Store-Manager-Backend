@@ -5,7 +5,7 @@ import re
 from flask import request
 from flask_restful import Resource, reqparse
 
-from app.v1.models import Products
+from app.models import Product
 
 
 class ProductResource(Resource):

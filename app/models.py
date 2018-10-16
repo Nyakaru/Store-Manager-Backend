@@ -57,19 +57,6 @@ class Base:
                 return obj
         return None
 
-    @classmethod
-    def get_many_by_key(cls, **kwargs):
-        '''Get an object by a key that is not id.'''
-
-        kwarg = list(kwargs.keys())[0]
-        db_store = getattr(db, cls.tablename)
-        objs = []
-        for key in db_store:
-            obj = db_store[key]
-            if obj.view()[kwarg] == kwargs[kwarg]:
-                objs.append(obj)
-        return objs
-
 class Product(Base):
     '''Product model.'''
 

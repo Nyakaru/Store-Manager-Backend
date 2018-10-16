@@ -39,7 +39,7 @@ class SaleResource(Resource):
         sale = Sale(products_dict=product_dict)
         sale = sale.save()
         return {
-            'message': 'sale has been created successfully.', 'sale': sale
+            'message': 'Sale has been created successfully.', 'sale': sale
         }, 201
     def get(self, sale_id=None):
         '''Get sales.'''

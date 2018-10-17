@@ -8,8 +8,8 @@ from app.models import Product, Sale
 class SaleResource(Resource):
     '''Class for handling sales.'''
 
-
-    def post(self):
+    @classmethod
+    def post(cls):
         '''Create an sale.'''
 
         data = request.get_json(force=True)
@@ -41,21 +41,17 @@ class SaleResource(Resource):
         return {
             'message': 'Sale has been created successfully.', 'sale': sale
         }, 201
-    def get(self, sale_id=None):
+    @classmethod
+    def get(cls, sale_id=None):
         '''Get sales.'''
 
         if sale_id:
             sale = Sale.get(id=sale_id)
             if sale:
-                return {
-                        'message': 'Sale record found.', 'sale': sale.view()
-                    }, 200
+                return {'message': 'Sale record found.', 'sale': sale.view()}, 200
 
             return {'message': 'Sale record not found.'}, 404
 
         sales = Sale.get_all()
         sales = [sales[sale].view() for sale in sales]
         return {'message': 'Sales records found.', 'sales': sales}, 200
-        
-
-    

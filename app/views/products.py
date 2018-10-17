@@ -2,7 +2,7 @@
 
 import re
 
-from flask import request
+
 from flask_restful import Resource, reqparse
 
 from app.models import Product
@@ -15,9 +15,9 @@ class ProductResource(Resource):
     parser.add_argument('name', required=True, type=str, help='Name (str) is required.')
     parser.add_argument('price', required=True, type=int, help='Price (int) is required.')
 
-    def post(self,*args, **kwargs):
-        '''Create a new product.'''
-        
+    @classmethod
+    def post(cls):
+        '''Post Product'''
         arguments = ProductResource.parser.parse_args()
         name = arguments.get('name')
         price = arguments.get('price')
@@ -30,15 +30,11 @@ class ProductResource(Resource):
         if not re.match('^[a-zA-Z 0-9]+$', name):
             return {'message': "Enter a valid product name"}, 400
 
-        if type(price) != int:
-            return {'message': "Invalid price"}, 400
-
         return {'message': 'Product successfully added.', 'product': product}, 201
 
-    def get(self, product_id=None):
-        ''' Get product/products.'''
-        
-        # Get a single product.
+    @classmethod
+    def get(cls, product_id=None):
+        '''Get Products'''  
         if product_id:
             product = Product.get_by_key(id=product_id)
             if product:
@@ -51,5 +47,3 @@ class ProductResource(Resource):
             return {'message': 'No products found.'}, 404
         products = [products[key].view() for key in products]
         return {'products': products}, 200
-
-    

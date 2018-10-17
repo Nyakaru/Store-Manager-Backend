@@ -18,7 +18,7 @@ class DB():
 db = DB()
 
 
-class Base:
+class Base():
     '''Base class to be inherited by other models.'''
 
     def save(self):
@@ -75,9 +75,7 @@ class Sale(Base):
     '''Sales model.'''
 
     tablename = 'sales'
-
-    def __init__(self,products_dict):
-        
+    def __init__(self, products_dict):   
         self.id = None
         self.products = [
             {'quantity': products_dict[product_id],
@@ -88,6 +86,3 @@ class Sale(Base):
     def get_total(self):
         '''Get total cost of a sale.'''
         return sum([i['quantity'] * i['product']['price'] for i in self.products])
-
-
- 

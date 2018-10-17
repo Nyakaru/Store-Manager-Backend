@@ -19,7 +19,7 @@ What you need to get started:
 
 # Running and testing app
 # Running:
-
+```
 $ virtualenv venv
 $ cd venv
 $ git clone https://github.com/Nyakaru/Store-Manager-Backend.git
@@ -28,7 +28,7 @@ $ cd fast_food_fast_backend
 $ export APP_SETTINGS=development
 $ export APP_SECRET_KEY="verysecret"
 $ python run.py
-
+```
 
 # Testing
 
@@ -62,7 +62,5 @@ Kinara Nyakaru
 
 This repo can be forked and contributed to.
 
-[![Build Status](https://travis-ci.org/Nyakaru/Store-Manager-Backend.svg?branch=develop)](https://travis-ci.org/Nyakaru/Store-Manager-Backend)
-
-[![Coverage Status](https://coveralls.io/repos/github/Nyakaru/Store-Manager-Backend/badge.svg)](https://coveralls.io/github/Nyakaru/Store-Manager-Backend)
+[![Build Status](https://travis-ci.org/Nyakaru/Store-Manager-Backend.svg?branch=develop)](https://travis-ci.org/Nyakaru/Store-Manager-Backend)[![Coverage Status](https://coveralls.io/repos/github/Nyakaru/Store-Manager-Backend/badge.svg)](https://coveralls.io/github/Nyakaru/Store-Manager-Backend)
 

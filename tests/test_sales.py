@@ -79,6 +79,8 @@ class TestsaleResource(BaseCase):
         expected = 'Sales records found.'
         self.assertEqual(loads(response.data.decode('utf-8'))
                          ['message'], expected)
+        self.assertEqual(
+            len(loads(response.data.decode('utf-8'))['sales']) ,2)
         
         # Returns 404 if sale does not exist.
         response = self.client.get('/api/v1/sales/4',)

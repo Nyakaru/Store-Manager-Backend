@@ -19,7 +19,7 @@ class SaleResource(Resource):
         if not isinstance(product_dict, dict):
             return {'message': 'product_dict (dict) is required.'}, 400
 
-        # Check if meal saleed exist.
+        # Check if product being sold exists.
         product_ids = product_dict.keys()
         for product_id in product_ids:
             try:
@@ -44,14 +44,13 @@ class SaleResource(Resource):
     def get(self, sale_id=None):
         '''Get sales.'''
 
-        if sale_id:
-            sale = Sale.get(id=sale_id)
-            if sale:
-                return {
-                        'message': 'Sale record found.', 'sale': sale.view()
-                    }, 200
+        sale = Sale.get(id=sale_id)
+        if sale:
+            return {
+                    'message': 'Sale record found.', 'sale': sale.view()
+                }, 200
 
-            return {'message': 'Sale record not found.'}, 404
+        return {'message': 'Sale record not found.'}, 404
 
         sales = Sale.get_all()
         sales = [sales[sale].view() for sale in sales]

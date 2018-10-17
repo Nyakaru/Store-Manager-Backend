@@ -15,7 +15,7 @@ class ProductResource(Resource):
     parser.add_argument('name', required=True, type=str, help='Name (str) is required.')
     parser.add_argument('price', required=True, type=int, help='Price (int) is required.')
 
-    def post(self):
+    def post(self,*args, **kwargs):
         '''Create a new product.'''
         
         arguments = ProductResource.parser.parse_args()
@@ -29,6 +29,9 @@ class ProductResource(Resource):
         product = product.save()
         if not re.match('^[a-zA-Z 0-9]+$', name):
             return {'message': "Enter a valid product name"}, 400
+
+        if type(price) != int:
+            return {'message': "Invalid price"}, 400
 
         return {'message': 'Product successfully added.', 'product': product}, 201
 

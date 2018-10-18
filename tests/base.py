@@ -3,7 +3,7 @@ from unittest import TestCase
 
 
 from app.models import db, Product, Sale
-from instance import create_app
+from app import create_app
 
 
 class BaseCase(TestCase):

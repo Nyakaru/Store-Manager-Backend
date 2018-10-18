@@ -48,7 +48,7 @@ class SaleResource(Resource):
         if sale_id:
             sale = Sale.get(id=sale_id)
             if sale:
-                return {'message': 'Sale record found.', 'sale': sale.view()}, 200
+                return {'message': 'Sale record found.' , 'sale': sale.view()}, 200
 
             return {'message': 'Sale record not found.'}, 404
 

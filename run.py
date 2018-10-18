@@ -1,7 +1,7 @@
 '''Run the app.'''
 import os
 
-from instance import create_app
+from app import create_app
 
 configuration = os.getenv('APP_SETTINGS')
 app = create_app(configuration)

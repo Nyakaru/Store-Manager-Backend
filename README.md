@@ -4,7 +4,7 @@ A backend for a web application that helps store owners manage sales and product
 ### Branches
 * master - main branch: all source after review and feedback.
 * develop - all the features developed.
-* challenge2 - contains all the features created with all the necessary pages to allow the application function .
+* features - contains all the features created with all the necessary pages to allow the application function .
 
 
 ### Prerequisites

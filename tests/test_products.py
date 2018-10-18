@@ -7,8 +7,7 @@ PRODUCT_URL = '/api/v1/products/1'
 
 
 class TestproductResource(BaseCase):
-    
-
+    '''Class to test products'''
     def test_can_create_a_product(self):
         '''Test the POST functionality for a product.'''
         response = self.client.post(
@@ -52,7 +51,6 @@ class TestproductResource(BaseCase):
         '''Test GET functionality of products.'''
 
         # Test getting all products.
-        
         response = self.client.get(PRODUCTS_URL)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(loads(response.data.decode('utf-8'))['products'])
@@ -71,9 +69,3 @@ class TestproductResource(BaseCase):
         expected = 'Product not found.'
         self.assertEqual(loads(response.data.decode('utf-8'))
                          ['message'], expected)
-
-
-
-    
-
-    

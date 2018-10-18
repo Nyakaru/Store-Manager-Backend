@@ -4,9 +4,6 @@ from app.models import Product, Sale
 from .base import BaseCase
 
 
-
-
-
 class TestModels(BaseCase):
     '''Class for testing the models.'''
 
@@ -30,7 +27,7 @@ class TestModels(BaseCase):
 
         # Test saving a sale
         result = sorted(list(self.sale1.save().keys()))
-        expected = sorted([ 'id','products', 'total'])
+        expected = sorted(['id', 'products', 'total'])
         self.assertEqual(result, expected)
 
         # Test getting a Sale.
@@ -39,8 +36,4 @@ class TestModels(BaseCase):
         # Test get all Sales.
         self.assertIsInstance(Sale.get_all(), dict)
         self.assertEqual(1, len(Sale.get_all()))
-
-
-        
-
-        
+               

@@ -1,12 +1,8 @@
 '''Products resource.'''
-
 import re
-
-
 from flask_restful import Resource, reqparse
 
 from app.models import Product
-
 
 class ProductResource(Resource):
     '''Class for handling products.'''
@@ -34,7 +30,7 @@ class ProductResource(Resource):
 
     @classmethod
     def get(cls, product_id=None):
-        '''Get Products'''  
+        '''Get Products'''
         if product_id:
             product = Product.get_by_key(id=product_id)
             if product:

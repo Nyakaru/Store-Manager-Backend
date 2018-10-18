@@ -3,12 +3,9 @@
 from flask import Flask
 from flask_restful import Api
 
-from instance.config import configurations
+from config import configurations
 from app.views.products import ProductResource
 from app.views.sales import SaleResource
-
-
-
 
 def create_app(configuration):
     '''Create the flask app.'''

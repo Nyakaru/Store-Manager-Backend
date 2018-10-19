@@ -53,4 +53,6 @@ class SaleResource(Resource):
 
         sales = Sale.get_all()
         sales = [sales[sale].view() for sale in sales]
-        return {'message': 'Sales records found.', 'sales': sales}, 200
+        if sales:
+            return {'message': 'Sales records found.', 'sales': sales}, 200
+        return {'message': 'Sales records not found.'}, 404

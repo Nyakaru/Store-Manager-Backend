@@ -74,7 +74,9 @@ class Product(Base):
 class Sale(Base):
     '''Sales model.'''
     tablename = 'sales'
+
     def __init__(self, products_dict):
+        '''Initialize a sale.'''
         self.id = None
         self.products = [
             {'quantity': products_dict[product_id],

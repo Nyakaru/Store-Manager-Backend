@@ -3,6 +3,7 @@ import re
 from flask_restful import Resource, reqparse
 
 from app.models import Product
+from app.decorators import login_required, admin_required
 
 class ProductResource(Resource):
     '''Class for handling products.'''
@@ -11,7 +12,7 @@ class ProductResource(Resource):
     parser.add_argument('name', required=True, type=str, help='Name (str) is required.')
     parser.add_argument('price', required=True, type=int, help='Price (int) is required.')
 
-    @classmethod
+    @admin_required
     def post(cls):
         '''Post Product'''
         arguments = ProductResource.parser.parse_args()
@@ -20,7 +21,7 @@ class ProductResource(Resource):
 
         product_exists = Product.get_by_key(name=name)
         if product_exists:
-            return {'message': 'Product with that name already exists.'}, 202
+            return {'message': 'Product with that name already exists.'}, 409
         product = Product(name=name, price=price)
         product = product.save()
         if not re.match('^[a-zA-Z 0-9]+$', name):
@@ -28,7 +29,7 @@ class ProductResource(Resource):
 
         return {'message': 'Product successfully added.', 'product': product}, 201
 
-    @classmethod
+
     def get(cls, product_id=None):
         '''Get Products'''
         if product_id:

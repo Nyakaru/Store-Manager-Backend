@@ -3,11 +3,12 @@ from flask import request
 from flask_restful import Resource
 
 from app.models import Product, Sale
+from app.decorators import login_required, admin_required
 
 class SaleResource(Resource):
     '''Class for handling sales.'''
 
-    @classmethod
+    @login_required
     def post(cls):
         '''Create an sale.'''
 
@@ -16,7 +17,7 @@ class SaleResource(Resource):
         product_dict = data.get('product_dict')
 
         if not isinstance(product_dict, dict):
-            return {'message': 'product_dict (dict) is required.'}, 400
+            return {'message': 'A valid product is required.'}, 400
 
         # Check if product being sold exists.
         product_ids = product_dict.keys()
@@ -40,7 +41,8 @@ class SaleResource(Resource):
         return {
             'message': 'Sale has been created successfully.', 'sale': sale
         }, 201
-    @classmethod
+    @admin_required
+    @login_required
     def get(cls, sale_id=None):
         '''Get sales.'''
 

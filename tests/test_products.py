@@ -10,6 +10,10 @@ class TestproductResource(BaseCase):
     '''Class to test products'''
     def test_can_create_a_product(self):
         '''Test the POST functionality for a product.'''
+        # Get admin token.
+        token = self.get_admin_token()
+        headers = {'Authorization': 'Bearer {}'.format(token)}
+    
         response = self.client.post(
             PRODUCTS_URL, data=self.valid_product_data)
         self.assertEqual(response.status_code, 201)
@@ -19,7 +23,7 @@ class TestproductResource(BaseCase):
         # Using duplicate product.
         response = self.client.post(
             PRODUCTS_URL, data=self.valid_product_data)
-        self.assertEqual(response.status_code, 202)
+        self.assertEqual(response.status_code, 409)
         expected = 'Product with that name already exists.'
         self.assertEqual(loads(response.data.decode('utf-8'))
                          ['message'], expected)

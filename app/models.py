@@ -1,3 +1,10 @@
+from datetime import timedelta
+from hashlib import sha256
+from os import getenv
+from time import time
+import jwt
+
+from jwt import encode, decode
 '''Models and their methods.'''
 
 class DB():
@@ -6,6 +13,7 @@ class DB():
     def __init__(self):
         '''Create an empty database.'''
 
+        self.users = {}
         self.products = {}
         self.sales = {}
 
@@ -28,6 +36,14 @@ class Base():
             setattr(self, 'id', len(getattr(db, self.tablename)) + 1)
         getattr(db, self.tablename).update({self.id: self})
         return self.view()
+
+    def update(self, new_data):
+        '''Update object.'''
+
+        keys = new_data.keys()
+        for key in keys:
+            setattr(self, key, new_data[key])
+        return self.save()
 
     def view(self):
         '''View object as a dictionary.'''
@@ -87,3 +103,56 @@ class Sale(Base):
     def get_total(self):
         '''Get total cost of a sale.'''
         return sum([i['quantity'] * i['product']['price'] for i in self.products])
+class User(Base):
+    '''User model.'''
+
+    tablename = 'users'
+
+    def __init__(self, username, password, email):
+        '''Initialize a user.'''
+
+        self.id = None
+        self.username = username
+        self.email = email
+        self.password = self.make_hash(password)
+        self.roles = []
+
+    def make_hash(self, password):
+        '''Generate hash of password.'''
+
+        return sha256(password.encode('utf-8')).hexdigest()
+
+    def generate_token(self):
+        '''Create a token for a user.'''
+
+        key = getenv('APP_SECRET_KEY')
+        payload = {
+            'user_id': self.id,
+            'username': self.username,
+            'roles': self.roles,
+            'created_at': time(),
+            'exp': time() + timedelta(hours=7).total_seconds()}
+        return jwt.encode(
+            payload=payload, key=str(key), algorithm='HS256').decode('utf-8')
+
+    @staticmethod
+    def decode_token(token):
+        '''View information inside a token.'''
+
+        key = getenv('APP_SECRET_KEY')
+        return jwt.decode(token, key=str(key))
+
+    def check_password(self, password):
+        '''Validate a user's password.'''
+
+        return True if self.make_hash(password) == self.password else False
+
+    def view(self):
+        '''View a user's information.'''
+
+        return {
+            'username': self.username,
+            'email': self.email,
+            'roles': self.roles,
+            'id': self.id
+        }

@@ -28,7 +28,7 @@ class TestsaleResource(BaseCase):
         response = self.client.post(SALES_URL, data=invalid_sale_data)
         # Check status code is 400.
         self.assertEqual(response.status_code, 400)
-        expected = 'product_dict (dict) is required.'
+        expected = 'A valid product is required.'
         # Check correct message returned.
         self.assertEqual(expected, loads(
             response.data.decode('utf-8'))['message'])

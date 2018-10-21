@@ -4,7 +4,7 @@ import os
 class Config(object):
     """Parent configuration class."""
     DEBUG = False
-    SECRET_KEY = os.getenv('SECRET_KEY')
+    SECRET_KEY = os.getenv('APP_SECRET_KEY')
 
 
 class DevelopmentConfig(Config):

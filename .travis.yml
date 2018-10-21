@@ -7,7 +7,7 @@ install:
   - pip install -r requirements.txt
 
 before_script:
-  - export SECRET_KEY="something"
+  - export APP_SECRET_KEY="something"
 
 script: 
   

@@ -1,27 +1,34 @@
-"""Application configuration."""
-
+"""The configuration for the app"""
 import os
 
-
 class Config(object):
-    """Base config class."""
-
-    SECRET_KEY = os.environ['APP_SECRET_KEY']
-
-
-class TestingConfig(Config):
-    """Configuration for testing environment."""
-
-    DEBUG = True
+    """Parent configuration class."""
+    DEBUG = False
+    SECRET_KEY = os.getenv('SECRET_KEY')
 
 
 class DevelopmentConfig(Config):
-    """Configuration for development environment."""
+    """Configurations for Development."""
+    DEBUG = True
 
-    DEBUG = False
 
+class TestingConfig(Config):
+    """Configurations for Testing"""
+    TESTING = True
+    DEBUG = True
 
-configurations = {
-    "testing": TestingConfig,
-    "development": DevelopmentConfig
+class StagingConfig(Config):
+    """Configurations for Staging."""
+    DEBUG = True
+
+class ProductionConfig(Config):
+    """Configurations for Production."""
+    TESTING = False
+
+app_config = {
+    'development': DevelopmentConfig,
+    'testing': TestingConfig,
+    'staging': StagingConfig,
+    'production': ProductionConfig,
 }
+

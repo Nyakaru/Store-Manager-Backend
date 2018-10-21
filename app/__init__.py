@@ -1,27 +1,42 @@
-'''Create app'''
+"""Initializes the flask app"""
 
 from flask import Flask
 from flask_restful import Api
+from flask_jwt_extended import JWTManager
 
-from config import configurations
-from app.views.products import ProductResource
-from app.views.sales import SaleResource
-from app.views.user import UserResource 
-from app.views.auth import AuthResource
-def create_app():
-    '''Create the flask app.'''
+from app.v1.views.views_users import NewUsers, GetAllUsers, GetUser, LoginUser
+from app.v1.views.views_products import NewProducts, GetProduct
+from app.v1.views.views_sales import MakeSale, GetSpecificSale
+from app.v1.models.model_users import generate_admin
+
+from config import app_config
+
+def create_app(config_name):
+    """Factory initialization for the app"""
     app = Flask(__name__)
-    app.config.from_object(configurations["development"])
-    app.url_map.strict_slashes = False
-    app_context = app.app_context()
-    app_context.push()
-    api = Api(app)
-    api.add_resource(
-        UserResource, '/api/v1/users/signup')
-    api.add_resource(
-        AuthResource, '/api/v1/users/signin')
-    api.add_resource(
-        ProductResource, '/api/v1/products', '/api/v1/products/<int:product_id>')
-    api.add_resource(
-        SaleResource, '/api/v1/sales', '/api/v1/sales/<int:sale_id>')
+    app.config.from_object(app_config["development"])
+   
+  
+
+    # Initialize flask_restful and add routes
+    api_endpoint = Api(app)
+    
+    # Users Resource
+    api_endpoint.add_resource(NewUsers, '/api/v1/auth/signup')
+    api_endpoint.add_resource(GetAllUsers, '/api/v1/users')
+    api_endpoint.add_resource(GetUser, '/api/v1/users/<int:user_id>')
+    api_endpoint.add_resource(LoginUser, '/api/v1/auth/login')
+
+    # Products Resource
+    api_endpoint.add_resource(NewProducts, '/api/v1/products')
+    api_endpoint.add_resource(GetProduct, '/api/v1/products/<int:product_id>')
+
+    # Sales Resource
+    api_endpoint.add_resource(MakeSale, '/api/v1/sales')
+    api_endpoint.add_resource(GetSpecificSale, '/api/v1/sales/<int:sale_id>')
+
+    # Initializes flask_jwt_extended
+    jwt = JWTManager(app)
+
     return app
+

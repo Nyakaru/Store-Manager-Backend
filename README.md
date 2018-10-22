@@ -46,8 +46,7 @@ $ python -m pytest
 | `/api/v1/sales`      | POST      | Create a sale order      |
 | `/api/v1/sales`      | GET       | Fetch all sale orders    |
 | `/api/v1/sales/1`    | GET       | Fetch a single sale order|
-| `api/v1/auth/signup/`| POST      | Signup a user            |
-| `api/v1/auth/login/` | POST      | Login a user             |
+
 
 # Hosting 
 https://store-manager-v1.herokuapp.com/

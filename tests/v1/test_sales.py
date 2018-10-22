@@ -18,45 +18,45 @@ class TestSales(unittest.TestCase):
             "password":"admin123"
         }
         self.user_reg1 = {
-            "name":"John",
-            "password":"pass123",
-            "confirm":"pass123"
+            "name":"Kinara",
+            "password":"pepeta231",
+            "confirm":"pepeta231"
         }
         self.user_login1 = {
-            "name":"John",
-            "password":"pass123"
+            "name":"Kinara",
+            "password":"pepeta231"
         }
         self.user_reg2 = {
             "name":"Ken",
-            "password":"pass123",
-            "confirm":"pass123"
+            "password":"pepeta231",
+            "confirm":"pepeta231"
         }
         self.user_login2 = {
             "name":"Ken",
-            "password":"pass123"
+            "password":"pepeta231"
         }
         self.user_reg3 = {
             "name":"Dave",
-            "password":"pass123",
-            "confirm":"pass123"
+            "password":"pepeta231",
+            "confirm":"pepeta231"
         }
         self.user_login3 = {
             "name":"Dave",
-            "password":"pass123"
+            "password":"pepeta231"
         }
         self.sale = {
-            "product":"Soap",
+            "product":"Tecno",
             "quantity":4,
             "price":30
         }
         self.product = {
-            "name" : "Soap",
+            "name" : "Tecno",
             "quantity" : 4,
             "price" : 30,
             "reorder":20
         }
         self.product2 = {
-            "name" : "Eggs",
+            "name" : "Infinix",
             "quantity" : 4,
             "price" : 30,
             "reorder":20
@@ -82,8 +82,6 @@ class TestSales(unittest.TestCase):
         json_output = json.loads(res_login.data)
         access_token = json_output.get('msg')
         self.assertEqual(res_login.status_code, 200)
-        res_product = self.client().post('/api/v1/products', data=json.dumps(self.product2), content_type='application/json')
-        self.assertEqual(res_product.status_code, 201)
         resp_sale = self.client().post('/api/v1/sales', headers = {"Authorization":"Bearer " + access_token}, data=json.dumps(self.sale), content_type='application/json')
         self.assertEqual(resp_sale.status_code, 403)
         self.assertIn('Sorry, this route is not accessible to admins', str(resp_sale.data))
@@ -118,5 +116,5 @@ class TestSales(unittest.TestCase):
         self.assertEqual(res_login.status_code, 200) 
         response = self.client().get('/api/v1/sales/1', headers = {"Authorization":"Bearer " + access_token})
         self.assertEqual(response.status_code, 200)
-        self.assertIn('Soap', str(response.data))
+        self.assertIn('Tecno', str(response.data))
 

@@ -11,19 +11,19 @@ class TestProducts(unittest.TestCase):
         self.app.config['TESTING'] = True
         self.client = self.app.test_client
         self.product = {
-            "name":"Bread",
+            "name":"Samsung",
             "quantity":50,
             "price":50,
             "reorder":20
         }
         self.product_2 = {
-            "name":"Soap",
+            "name":"Tecno",
             "quantity":50,
             "price":-1,
             "reorder":20
         }
         self.product_3 = {
-            "name":"Toothpaste                 ",
+            "name":"Infinix                 ",
             "quantity":50,
             "price":1,
             "reorder":20
@@ -62,7 +62,7 @@ class TestProducts(unittest.TestCase):
         """Test to successfully fetch a specific product"""
         response = self.client().get('/api/v1/products/1')
         self.assertEqual(response.status_code, 200)
-        self.assertIn("Bread", str(response.data))
+        self.assertIn("Samsung", str(response.data))
     
     def test_for_fetching_a_specific_order_fails(self):
         """Test when a specific product does not exist"""

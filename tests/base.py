@@ -1,7 +1,8 @@
 '''Base test class.'''
 from unittest import TestCase
+from json import dumps
 
-from app.models import db, Product, Sale
+from app.models import db, Product, Sale, User
 from app import create_app
 
 class BaseCase(TestCase):
@@ -13,28 +14,83 @@ class BaseCase(TestCase):
         self.client = self.app.test_client()
         self.app_context = self.app.app_context()
         self.app_context.push()
-        self.product1 = Product(
-            name='Product1',
-            price=100
-        )
-        self.product1.save()
+        self.admin_user = {
+            'username': 'Nyakaru',
+            'email': 'nyakaru@gmail.com',
+            'password': 'password',
+            'isAdmin': True,
+            'isAttendant': False
+        }
+        self.store_attendant_user = {
+            'username': 'Nyakaru',
+            'email': 'nyakaru@gmail.com',
+            'password': 'password',
+            'isAdmin': False,
+            'isAttendant': True
+        }
+        self.user_data_2 = {
+            'username': '',
+            'email': 'user2@mail.com',
+            'password': 'password',
+            'isAdmin': False,
+            'isAttendant': True
+        }
+        self.user_data_3 = {
+            'username': 'user3',
+            'email': 'user2mail.com',
+            'password': 'password',
+            'isAdmin': False,
+            'isAttendant': True
+        }
+        self.user_data_4 = {
+            'username': 'user4',
+            'email': 'user2@mail.com',
+            'password' :'password'
+        }
+        self.user_data_5 = {
+            'username': 'user5',
+            'email': 'user2@mail.com',
+            'password': 'password',
+            'isAdmin': False,
+            'isAttendant': False
+        }
+        self.user_data_6 = {
+            'username': 'user5',
+            'email': 'user2@mail.com',
+            'password': 'password',
+            'isAdmin': True,
+            'isAttendant': True
+        }
         self.valid_product_data = {
-            'name': 'Product2',
-            'price': 100
+            'name': 'tea',
+            'price': 45
         }
-        self.invalid_product_data = {
-            'name': None,
-            'price': None
+        self.invalid_product_name = {
+            'name': '**',
+            'price': 40
         }
+        self.invalid_product_price_data = {
+            'name': 'bread',
+            'price': 'vhjk'
+        }
+        self.headers = {'Content-Type': 'application/json'}
 
-        self.invalid_product_data_name = {
-            'name': "",
-            'price': 100
-        }
-        self.product1.save()
-        self.sale1 = Sale({1: 2})
-        self.sale1.save()
+
+    def get_admin_token(self):
+        '''Create an admin token for testing.'''
+        self.client.post('api/v1/users/signup', data=dumps(self.admin_user), headers=self.headers)
+        res = self.client.post('api/v1/users/signin', data=dumps(self.admin_user), headers=self.headers)
+        return res.json['token']
+
+
+    def get_attendant_token(self):
+        '''Create an attendant token for testing.'''
+        self.client.post('api/v1/users/signup', data=dumps(self.store_attendant_user), headers=self.headers)
+        res = self.client.post('api/v1/users/signin', data=dumps(self.store_attendant_user), headers=self.headers)
+        return res.json['token']
+
     def tearDown(self):
         '''Delete database and recreate it with no data.'''
         db.drop()
         self.app_context.pop()
+

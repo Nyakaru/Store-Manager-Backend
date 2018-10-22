@@ -1,58 +1,46 @@
-'''sale resource.'''
-from flask import request
-from flask_restful import Resource
+import re
+from flask_restful import Resource, reqparse
 
-from app.models import Product, Sale
+from app.models import Product, db ,Sale
+from app.decorators import login_required, admin_required
 
 class SaleResource(Resource):
-    '''Class for handling sales.'''
+    '''Class for handling products.'''
 
-    @classmethod
+    parser = reqparse.RequestParser()
+    parser.add_argument('name', required=True, type=str, help='Name (str) is required.')
+    parser.add_argument('price', required=True, type=int, help='Price (int) is required.')
+
+    @login_required
     def post(cls):
-        '''Create an sale.'''
+            '''Post Product'''
+            arguments = SaleResource.parser.parse_args()
+            name = arguments.get('name')
+            price = arguments.get('price')
 
-        data = request.get_json(force=True)
+            for product in getattr(db, 'sales'):
+                if not name == sale['name']:
+                    return {'message': 'Product does not exist.'}, 400
+            if not re.match('^[a-zA-Z 0-9]+$', name):
+                return {'message': "Enter a valid sale name"}, 400
+            sale = Sale(name=name, price=price)
+            sale = sale.save()
+            return {'message': 'Sale has successfully been added.', 'sale': sale}, 201
 
-        product_dict = data.get('product_dict')
-
-        if not isinstance(product_dict, dict):
-            return {'message': 'Correct product information is required.'}, 400
-
-        # Check if product being sold exists.
-        product_ids = product_dict.keys()
-        for product_id in product_ids:
-            try:
-                product_id = int(product_id)
-                product = Product.get_by_key(id=int(product_id))
-                if product:
-                    if not isinstance(product_dict[str(product_id)], int):
-                        return {
-                            'message': 'Product quantities should be integers.'
-                        }, 400
-                else:
-                    return {
-                        'message': 'Product {} does not exist.'.format(product_id)
-                    }, 400
-            except ValueError:
-                return {'message': 'Product ID should be an integer.'}, 400
-        sale = Sale(products_dict=product_dict)
-        sale = sale.save()
-        return {
-            'message': 'Sale has been created successfully.', 'sale': sale
-        }, 201
-    @classmethod
+    
     def get(cls, sale_id=None):
-        '''Get sales.'''
-
+        '''Get Products'''
         if sale_id:
-            sale = Sale.get(id=sale_id)
+            sale = [sale for sale in getattr(db,'sales') if sale['id'] == sale_id]
             if sale:
-                return {'message': 'Sale record found.', 'sale': sale.view()}, 200
-
+                return {'message': 'Sale record found.', 'sale': sale}, 200
             return {'message': 'Sale record not found.'}, 404
 
-        sales = Sale.get_all()
-        sales = [sales[sale].view() for sale in sales]
-        if sales:
-            return {'message': 'Fetch success.', 'sales': sales}, 200
-        return {'message': 'Sales records not found.'}, 404
+        # Get all products
+        sales = getattr(db,'sales')
+        if not sales:
+            return {'message': 'No sales records found.'}, 404
+        return {'message': 'Sale records found.', 'SALES': sales}, 200
+
+
+

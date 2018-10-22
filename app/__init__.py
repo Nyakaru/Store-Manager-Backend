@@ -6,6 +6,8 @@ from flask_restful import Api
 from config import configurations
 from app.views.products import ProductResource
 from app.views.sales import SaleResource
+from app.views.user import UserResource
+from app.views.auth import AuthResource
 
 def create_app():
     '''Create the flask app.'''
@@ -19,4 +21,8 @@ def create_app():
         ProductResource, '/api/v1/products', '/api/v1/products/<int:product_id>')
     api.add_resource(
         SaleResource, '/api/v1/sales', '/api/v1/sales/<int:sale_id>')
+    api.add_resource(
+        UserResource, '/api/v1/users/signup')
+    api.add_resource(
+        AuthResource, '/api/v1/users/signin')
     return app

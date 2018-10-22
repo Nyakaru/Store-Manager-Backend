@@ -1,84 +1,85 @@
-'''Test sales.'''
-from json import dumps, loads
-
-from app.models import Sale
+'''Tests product resource.'''
+from json import loads, dumps
 from .base import BaseCase
 
 SALES_URL = '/api/v1/sales/'
 SALE_URL = '/api/v1/sales/1'
-
+PRODUCTS_URL = '/api/v1/products/'
 
 
 class TestsaleResource(BaseCase):
-    '''Test sale resources.'''
+    '''Class to test products'''
+    def test_attendant_create_sale(self):
+        '''Test the POST functionality for a product.'''
+        # Get admin token.
 
-    def test_can_create_a_sale(self):
-        '''Test the POST functionality for a sale.'''
-        # Using valid data.
-        valid_sale_data = dumps({"product_dict": {1: 3}})
-        response = self.client.post(
-            SALES_URL, data=valid_sale_data)
-        #Check status code is 201
+        token = self.get_attendant_token()
+        self.headers['Authorization'] = token
+        response = self.client.post(SALES_URL, data=dumps(self.valid_product_data), headers=self.headers)
+        expected = 'Sale has successfully been added.'
+        self.assertEqual(response.json.get('message'), expected)
         self.assertEqual(response.status_code, 201)
-        expected = 'Sale has been created successfully.'
-        #Check correct message returned.
-        self.assertEqual(expected, loads(response.data.decode('utf-8'))['message'])
-        #Check sale created with invalid product_dict.
-        invalid_sale_data = dumps({'product_dict': []})
-        response = self.client.post(SALES_URL, data=invalid_sale_data)
-        # Check status code is 400.
+    
+    def test_can_admin_cannot_create_sale(self):
+        '''Test the POST functionality for a product.'''
+        token = self.get_admin_token()
+        self.headers['Authorization'] = token
+        response = self.client.post(SALES_URL, data=dumps(self.valid_product_data), headers=self.headers)
+        expected = 'This action requires an attendant token.'
+        self.assertEqual(response.json.get('message'), expected)
         self.assertEqual(response.status_code, 400)
-        expected = 'Correct product information is required.'
-        # Check correct message returned.
-        self.assertEqual(expected, loads(
-            response.data.decode('utf-8'))['message'])
-        # Create sale for non-existent product.
-        valid_sale_data = dumps({'product_dict': {2: 3}})
-        response = self.client.post(SALES_URL, data=valid_sale_data)
-        # Check status code is 400.
-        self.assertEqual(response.status_code, 400)
-        expected = 'Product 2 does not exist.'
-        self.assertEqual(expected, loads(
-            response.data.decode('utf-8'))['message'])
-        # Place sale with invalid quantity.
-        valid_sale_data = dumps({'product_dict': {1: 'b'}})
-        response = self.client.post(SALES_URL, data=valid_sale_data)
-        # Check status code is 400.
-        self.assertEqual(response.status_code, 400)
-        expected = 'Product quantities should be integers.'
-        self.assertEqual(expected, loads(
-            response.data.decode('utf-8'))['message'])
-        # Place sale with invalid product_id.
-        valid_sale_data = dumps({'product_dict': {'a': 1}})
-        response = self.client.post(SALES_URL, data=valid_sale_data)
-        # Check status code is 400.
-        self.assertEqual(response.status_code, 400)
-        expected = 'Product ID should be an integer.'
-        self.assertEqual(expected, loads(
-            response.data.decode('utf-8'))['message'])
 
-    def test_can_get_sale(self):
-        '''Test can get sales'''
-        self.sale = Sale({1: 4})
-        self.sale.save()
-        #  Get one.
-        response = self.client.get(SALE_URL,)
+    def test_can_cannot_create_sale(self):
+        '''Test the POST functionality for a product.'''
+        response = self.client.post(SALES_URL, data=dumps(self.valid_product_data), headers=self.headers)
+        expected = 'please provide a token'
+        self.assertEqual(response.json.get('message'), expected)
+        self.assertEqual(response.status_code, 400)
+    
+    def test_empty_name_sale(self):
+        # Using empty name.
+        token = self.get_attendant_token()
+        self.headers['Authorization'] = token
+        response = self.client.post(SALES_URL, data=dumps(self.invalid_product_name), headers=self.headers)
+        self.assertEqual(response.status_code, 400)
+        expected = 'Enter a valid sale name'
+        self.assertEqual(response.json['message'], expected)
+    
+    def test_invalid_saleprice(self):
+        # Provide an invalid sale price.
+        token = self.get_attendant_token()
+        self.headers['Authorization'] = token
+        response = self.client.post(SALES_URL, data=dumps(self.invalid_product_price_data), headers=self.headers)
+        self.assertEqual(response.status_code, 400)
+        expected = 'Price (int) is required.'
+        self.assertEqual(response.json['message']['price'], expected)
+
+    def test_can_get_all_sales(self):
+        # Test getting all products.
+        token = self.get_attendant_token()
+        self.headers['Authorization'] = token
+        response = self.client.post(SALES_URL, data=dumps(self.valid_product_data), headers=self.headers)
+        response = self.client.get(SALES_URL)
+        self.assertEqual(response.status_code, 200)
+        expected = 'Sale records found.'
+        self.assertEqual(response.json['message'], expected)
+    
+    def test_can_get_single_sale(self):
+        #Test getting single product.
+        token = self.get_attendant_token()
+        self.headers['Authorization'] = token
+        response = self.client.post(SALES_URL, data=dumps(self.valid_product_data), headers=self.headers)
+        response = self.client.get(SALE_URL)
         self.assertEqual(response.status_code, 200)
         expected = 'Sale record found.'
-        self.assertEqual(loads(response.data.decode('utf-8'))
-                         ['message'], expected)
-        self.assertTrue(loads(response.data.decode('utf-8'))['sale'])
-        #  Request get all.
-        response = self.client.get(SALES_URL,)
-        self.assertEqual(response.status_code, 200)
-        expected = 'Fetch success.'
-        self.assertEqual(loads(response.data.decode('utf-8'))
-                         ['message'], expected)
-        self.assertEqual(
-            len(loads(response.data.decode('utf-8'))['sales']), 2)
-        # Returns 404 if sale does not exist.
-        response = self.client.get('/api/v1/sales/4',)
+        self.assertEqual(response.json['message'], expected)
+    
+    
+    def test_non_existent_product(self):
+        # Test returns 404 for non-existent product.
+        token = self.get_attendant_token()
+        self.headers['Authorization'] = token
+        response = self.client.get('/api/v1/sales/4')
         self.assertEqual(response.status_code, 404)
         expected = 'Sale record not found.'
-        self.assertEqual(loads(response.data.decode('utf-8'))
-                         ['message'], expected)
+        self.assertEqual(response.json['message'], expected)

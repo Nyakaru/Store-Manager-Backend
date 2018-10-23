@@ -36,5 +36,4 @@ def admin_required(func):
             return {'message': 'You have insufficient permissions.'}, 403
         except jwt.exceptions.DecodeError:
             return {"message": "please provide a token"}, 401
-        return decorated
-        
+    return decorated

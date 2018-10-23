@@ -2,7 +2,7 @@
 from unittest import TestCase
 from json import dumps
 
-from app.models import db, Product, Sale, User
+from app.v1.models import db, Product, Sale, User
 from app import create_app
 
 class BaseCase(TestCase):

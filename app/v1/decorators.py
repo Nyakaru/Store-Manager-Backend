@@ -3,7 +3,7 @@ import jwt
 
 from functools import wraps
 from flask import request
-from app.models import User
+from app.v1.models import User
 
 
 def login_required(func):

@@ -2,8 +2,8 @@
 import re
 from flask_restful import Resource, reqparse
 
-from app.models import Product, db
-from app.decorators import admin_required
+from app.v1.models import Product, db
+from app.v1.decorators import admin_required
 
 class ProductResource(Resource):
     '''Class for handling products.'''

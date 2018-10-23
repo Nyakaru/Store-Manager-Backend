@@ -4,10 +4,10 @@ from flask import Flask
 from flask_restful import Api
 
 from config import configurations
-from app.views.products import ProductResource
-from app.views.sales import SaleResource
-from app.views.user import UserResource
-from app.views.auth import AuthResource
+from app.v1.views.products import ProductResource
+from app.v1.views.sales import SaleResource
+from app.v1.views.user import UserResource
+from app.v1.views.auth import AuthResource
 
 def create_app():
     '''Create the flask app.'''

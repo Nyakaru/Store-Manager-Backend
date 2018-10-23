@@ -1,8 +1,8 @@
 import re
 from flask_restful import Resource, reqparse
 
-from app.models import Product, db ,Sale
-from app.decorators import login_required, admin_required
+from app.v1.models import Product, db ,Sale
+from app.v1.decorators import login_required, admin_required
 
 class SaleResource(Resource):
     '''Class for handling products.'''

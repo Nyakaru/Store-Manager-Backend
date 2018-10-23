@@ -2,7 +2,7 @@
 
 import re
 from flask_restful import Resource, reqparse
-from app.models import User, db
+from app.v1.models import User, db
 
 
 class UserResource(Resource):

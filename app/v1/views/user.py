@@ -45,6 +45,6 @@ class UserResource(Resource):
                         'message': 'User registration successful',
                         'user': new_user.view()
                         }, 201
-                return {"message": "Invalid email format"}, 400
-            return {"message": "bad username format"}, 400
+                return {"message": "Use a valid email format"}, 400
+            return {"message": "Use a username format of alphanumeric"}, 400
         return {"message": "pick a role"}, 400

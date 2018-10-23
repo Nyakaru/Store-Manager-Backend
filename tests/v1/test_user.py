@@ -36,7 +36,7 @@ class TestUser(BaseCase):
         """Test invalid email """
         response = self.client.post('/api/v1/users/signup', data=self.user_data_3)
         self.assertEqual(400, response.status_code)
-        expected = {'message': 'Invalid email format'}
+        expected = {'message': 'Use a valid email format'}
         self.assertEqual(expected['message'], loads(
             response.data.decode('utf-8'))['message'])
     
@@ -44,7 +44,7 @@ class TestUser(BaseCase):
         """Test invalid username """
         response = self.client.post('/api/v1/users/signup', data=self.user_data_2)
         self.assertEqual(400, response.status_code)
-        expected = {'message': 'bad username format'}
+        expected = {'message': 'Use a username format of alphanumeric'}
         self.assertEqual(expected['message'], loads(
             response.data.decode('utf-8'))['message'])
     

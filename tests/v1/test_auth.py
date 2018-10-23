@@ -27,10 +27,7 @@ class TestAuth(BaseCase):
 
     def test_nonexistent_email(self):
         '''test signin with nonexistent email'''
-        response = self.client.post(
-            '/api/v1/users/signin',
-            data={'email': 'user8@gmail.com', 'password': 'pass#1234'})
+        response = self.client.post('/api/v1/users/signin',data={'email': 'user8@gmail.com', 'password': 'pass#1234'})
         self.assertEqual(400, response.status_code)
         expected = {'message': 'Email/Password Invalid.'}
-        self.assertEqual(expected['message'], loads(
-            response.data.decode('utf-8'))['message'])
+        self.assertEqual(expected['message'], loads(response.data.decode('utf-8'))['message'])

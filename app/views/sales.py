@@ -18,8 +18,8 @@ class SaleResource(Resource):
             name = arguments.get('name')
             price = arguments.get('price')
 
-            for product in getattr(db, 'sales'):
-                if not name == sale['name']:
+            for product in getattr(db, 'products'):
+                if not name == product['name']:
                     return {'message': 'Product does not exist.'}, 400
             if not re.match('^[a-zA-Z 0-9]+$', name):
                 return {'message': "Enter a valid sale name"}, 400

@@ -33,7 +33,6 @@ class Base():
     def save(self):
         '''Add object to database.'''
         try:
-            print(getattr(db, self.tablename))
             self.id = getattr(db, self.tablename)[-1]['id']+1
         except IndexError:
             self.id = 1

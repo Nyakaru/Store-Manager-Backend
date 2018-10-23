@@ -38,14 +38,16 @@ $ python -m pytest
 
 ## Endpoints
 
-| URL                  | METHODS   | DESCRIPTION              |
-| :---                 |     :---: |          ---:            |
-| `/api/v1/products`   | POST      | Create a product         |
-| `/api/v1/products`   | GET       | Fetch all products       |
-| `/api/v1/products/1` | GET       | Fetch a single product   | 
-| `/api/v1/sales`      | POST      | Create a sale order      |
-| `/api/v1/sales`      | GET       | Fetch all sale orders    |
-| `/api/v1/sales/1`    | GET       | Fetch a single sale order|
+| URL                   | METHODS   | DESCRIPTION              |
+| :---                  |     :---: |          ---:            |
+| `/api/v1/products`    | POST      | Create a product         |
+| `/api/v1/products`    | GET       | Fetch all products       |
+| `/api/v1/products/1`  | GET       | Fetch a single product   | 
+| `/api/v1/sales`       | POST      | Create a sale order      |
+| `/api/v1/sales`       | GET       | Fetch all sale orders    |
+| `/api/v1/sales/1`     | GET       | Fetch a single sale order|
+| `/api/v1/users/signup`| POST      | Sign up  users           |
+| `/api/v1/users/signin`| POST      | Login  users             |
 
 
 # Hosting 

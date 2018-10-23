@@ -52,7 +52,7 @@ class TestUser(BaseCase):
         """Test missing roles """
         response = self.client.post('/api/v1/users/signup', data=self.user_data_4)
         self.assertEqual(400, response.status_code)
-        expected = {'message': 'pick a role'}
+        expected = {'message': 'Please pick a role of either admin or attendant'}
         self.assertEqual(expected['message'], loads(
             response.data.decode('utf-8'))['message'])
     
@@ -60,7 +60,7 @@ class TestUser(BaseCase):
         """Test roles """
         response = self.client.post('/api/v1/users/signup', data=self.user_data_5)
         self.assertEqual(400, response.status_code)
-        expected = {'message': 'pick a role'}
+        expected = {'message': 'Please pick a role of either admin or attendant'}
         self.assertEqual(expected['message'], loads(
             response.data.decode('utf-8'))['message'])
     
@@ -68,6 +68,6 @@ class TestUser(BaseCase):
         """Test duplicate roles """
         response = self.client.post('/api/v1/users/signup', data=self.user_data_6)
         self.assertEqual(400, response.status_code)
-        expected = {'message': 'one at a time'}
+        expected = {'message': 'You are either an admin or an attendant'}
         self.assertEqual(expected['message'], loads(
             response.data.decode('utf-8'))['message'])

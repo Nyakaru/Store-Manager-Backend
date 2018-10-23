@@ -18,29 +18,29 @@ class BaseCase(TestCase):
             'username': 'Nyakaru',
             'email': 'nyakaru@gmail.com',
             'password': 'password',
-            'isAdmin': True,
-            'isAttendant': False
+            'is_admin': True,
+            'is_attendant': False
         }
         self.store_attendant_user = {
             'username': 'Nyakaru',
             'email': 'nyakaru@gmail.com',
             'password': 'password',
-            'isAdmin': False,
-            'isAttendant': True
+            'is_admin': False,
+            'is_attendant': True
         }
         self.user_data_2 = {
             'username': '',
             'email': 'user2@mail.com',
             'password': 'password',
-            'isAdmin': False,
-            'isAttendant': True
+            'is_admin': False,
+            'is_attendant': True
         }
         self.user_data_3 = {
             'username': 'user3',
             'email': 'user2mail.com',
             'password': 'password',
-            'isAdmin': False,
-            'isAttendant': True
+            'is_admin': False,
+            'is_attendant': True
         }
         self.user_data_4 = {
             'username': 'user4',
@@ -51,15 +51,15 @@ class BaseCase(TestCase):
             'username': 'user5',
             'email': 'user2@mail.com',
             'password': 'password',
-            'isAdmin': False,
-            'isAttendant': False
+            'is_admin': False,
+            'is_attendant': False
         }
         self.user_data_6 = {
             'username': 'user5',
             'email': 'user2@mail.com',
             'password': 'password',
-            'isAdmin': True,
-            'isAttendant': True
+            'is_admin': True,
+            'is_attendant': True
         }
         self.valid_product_data = {
             'name': 'tea',
@@ -93,4 +93,3 @@ class BaseCase(TestCase):
         '''Delete database and recreate it with no data.'''
         db.drop()
         self.app_context.pop()
-        

@@ -107,21 +107,21 @@ class Sale(Base):
 class User(Base):
     '''User model.'''
 
-    def __init__(self, username, password, email, isAdmin, isAttendant, id=None):
+    def __init__(self, username, password, email, is_admin, is_attendant, id=None):
         '''Initialize a user.'''
 
         self.id = 0
         self.username = username
         self.email = email
         self.password = self.make_hash(password)
-        if str(isAdmin) == 'True':
-            self.isAdmin = True
+        if str(is_admin) == 'True':
+            self.is_admin = True
         else:
-            self.isAdmin = False
-        if str(isAttendant) == 'True':
-            self.isAttendant = True
+            self.is_admin = False
+        if str(is_attendant) == 'True':
+            self.is_attendant = True
         else:
-            self.isAttendant = False
+            self.is_attendant = False
         self.tablename = 'users'
 
     def current(self):
@@ -130,8 +130,8 @@ class User(Base):
             'username': self.username,
             'email': self.email,
             'password': self.password,
-            'isAttendant': self.isAttendant,
-            'isAdmin': self.isAdmin,
+            'is_attendant': self.is_attendant,
+            'is_admin': self.is_admin,
             'id': self.id
         }
         return current
@@ -142,8 +142,8 @@ class User(Base):
         return {
             'username': self.username,
             'email': self.email,
-            'isAdmin': self.isAdmin,
-            'isAttendant': self.isAttendant,
+            'is_admin': self.is_admin,
+            'is_attendant': self.is_attendant,
             'id': self.id
         }
 
@@ -159,8 +159,8 @@ class User(Base):
         payload = {
             'user_id': self.id,
             'username': self.username,
-            'isAdmin': self.isAdmin,
-            'isAttendant': self.isAttendant
+            'is_admin': self.is_admin,
+            'is_attendant': self.is_attendant
         }
         return jwt.encode(payload=payload, key=str(key), algorithm='HS256').decode('utf-8')
 

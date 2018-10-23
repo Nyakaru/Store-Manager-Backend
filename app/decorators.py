@@ -13,8 +13,8 @@ def login_required(func):
         '''Decorator for store attendant'''
         try:
             access_token = request.headers.get('Authorization')
-            isAttendant = User.decode_token(token=access_token)['isAttendant']
-            if isAttendant:
+            is_attendant = User.decode_token(token=access_token)['is_attendant']
+            if is_attendant:
                 return func(*args, **kwargs)
             return {'message': 'You have insufficient permissions.'}, 403
         except jwt.exceptions.DecodeError:
@@ -30,8 +30,8 @@ def admin_required(func):
         '''Decorator for store admin'''
         try:
             access_token = request.headers.get('Authorization')
-            isAdmin = User.decode_token(token=access_token)['isAdmin']
-            if isAdmin:
+            is_admin = User.decode_token(token=access_token)['is_admin']
+            if is_admin:
                 return func(*args, **kwargs)
             return {'message': 'You have insufficient permissions.'}, 403
         except jwt.exceptions.DecodeError:

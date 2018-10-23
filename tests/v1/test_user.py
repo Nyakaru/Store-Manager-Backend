@@ -14,8 +14,7 @@ class TestUser(BaseCase):
         expected = {'message': 'User registration successful'}
         self.assertEqual(expected['message'], loads(
             response.data.decode('utf-8'))['message'])
-        self.assertTrue(loads(response.data.decode('utf-8')))
-
+    
     def test_create_admin(self):
         """Test create  admin """
         response = self.client.post('/api/v1/users/signup', data=self.admin_user)
@@ -23,8 +22,7 @@ class TestUser(BaseCase):
         expected = {'message': 'User registration successful'}
         self.assertEqual(expected['message'], loads(
             response.data.decode('utf-8'))['message'])
-        self.assertTrue(loads(response.data.decode('utf-8')))
-
+    
     def test_duplicate_signup(self):
         # test duplicate signup
         response = self.client.post('/api/v1/users/signup', data=self.store_attendant_user)
@@ -33,8 +31,6 @@ class TestUser(BaseCase):
         expected = {'message': "username or email already in use"}
         self.assertEqual(expected['message'], loads(
             response.data.decode('utf-8'))['message'])
-        self.assertTrue(loads(response.data.decode('utf-8')))
-
 
     def test_user_invalid_email(self):
         """Test invalid email """
@@ -43,8 +39,7 @@ class TestUser(BaseCase):
         expected = {'message': 'Invalid email format'}
         self.assertEqual(expected['message'], loads(
             response.data.decode('utf-8'))['message'])
-        self.assertTrue(loads(response.data.decode('utf-8')))
-
+    
     def test_user_invalid_username(self):
         """Test invalid username """
         response = self.client.post('/api/v1/users/signup', data=self.user_data_2)
@@ -52,8 +47,7 @@ class TestUser(BaseCase):
         expected = {'message': 'bad username format'}
         self.assertEqual(expected['message'], loads(
             response.data.decode('utf-8'))['message'])
-        self.assertTrue(loads(response.data.decode('utf-8')))
-
+    
     def test_missing_roles(self):
         """Test missing roles """
         response = self.client.post('/api/v1/users/signup', data=self.user_data_4)
@@ -61,8 +55,7 @@ class TestUser(BaseCase):
         expected = {'message': 'pick a role'}
         self.assertEqual(expected['message'], loads(
             response.data.decode('utf-8'))['message'])
-        self.assertTrue(loads(response.data.decode('utf-8')))
-
+    
     def test_roles(self):
         """Test roles """
         response = self.client.post('/api/v1/users/signup', data=self.user_data_5)
@@ -70,8 +63,7 @@ class TestUser(BaseCase):
         expected = {'message': 'pick a role'}
         self.assertEqual(expected['message'], loads(
             response.data.decode('utf-8'))['message'])
-        self.assertTrue(loads(response.data.decode('utf-8')))
-
+    
     def test_duplicate_roles(self):
         """Test duplicate roles """
         response = self.client.post('/api/v1/users/signup', data=self.user_data_6)
@@ -79,5 +71,3 @@ class TestUser(BaseCase):
         expected = {'message': 'one at a time'}
         self.assertEqual(expected['message'], loads(
             response.data.decode('utf-8'))['message'])
-        self.assertTrue(loads(response.data.decode('utf-8')))
-        

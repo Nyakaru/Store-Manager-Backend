@@ -15,7 +15,6 @@ class TestAuth(BaseCase):
         expected = {'message': 'User login successful.'}
         self.assertEqual(expected['message'], loads(
             response.data.decode('utf-8'))['message'])
-        self.assertTrue(loads(response.data.decode('utf-8'))['token'])
     
     def test_wrong_password(self):
         ''' test signin with wrong password'''
@@ -35,4 +34,3 @@ class TestAuth(BaseCase):
         expected = {'message': 'Email/Password Invalid.'}
         self.assertEqual(expected['message'], loads(
             response.data.decode('utf-8'))['message'])
-        

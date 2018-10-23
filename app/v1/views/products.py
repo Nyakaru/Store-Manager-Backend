@@ -3,7 +3,7 @@ import re
 from flask_restful import Resource, reqparse
 
 from app.v1.models import Product, db
-from app.v1.decorators import admin_required
+from app.decorators import admin_required
 
 class ProductResource(Resource):
     '''Class for handling products.'''
@@ -32,13 +32,13 @@ class ProductResource(Resource):
     def get(cls, product_id=None):
         '''Get Products'''
         if product_id:
-            product = [product for product in getattr(db,'products') if product['id'] == product_id]
+            product = [product for product in getattr(db, 'products') if product['id'] == product_id]
             if product:
                 return {'message': 'Product found.', 'product': product}, 200
             return {'message': 'Product not found.'}, 404
 
         # Get all products
-        products = getattr(db,'products')
+        products = getattr(db, 'products')
         if not products:
             return {'message': 'No products found.'}, 404
         return {'message': 'Products found.', 'PRODUCTS': products}, 200

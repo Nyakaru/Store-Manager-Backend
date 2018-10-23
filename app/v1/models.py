@@ -1,11 +1,10 @@
-from datetime import timedelta
+'''Models and their methods.'''
+
 from hashlib import sha256
 from os import getenv
-from time import time
+
 import jwt
 
-from jwt import encode, decode
-'''Models and their methods.'''
 
 class DB():
     '''In memory database.'''
@@ -59,6 +58,7 @@ class Product(Base):
         self.tablename = 'products'
 
     def current(self):
+        '''Current product'''
         current = {
             "name": self.name,
             "price": self.price,
@@ -67,7 +67,7 @@ class Product(Base):
         return current
 
     def view(self):
-        '''View a user's information.'''
+        '''View product's information.'''
 
         return {
             "name": self.name,
@@ -87,6 +87,7 @@ class Sale(Base):
         self.tablename = 'sales'
 
     def current(self):
+        '''Current sale'''
         current = {
             "name": self.name,
             "price": self.price,
@@ -102,8 +103,6 @@ class Sale(Base):
             "price": self.price,
             "id": self.id
         }
-
-
 
 class User(Base):
     '''User model.'''
@@ -125,8 +124,8 @@ class User(Base):
             self.isAttendant = False
         self.tablename = 'users'
 
-
     def current(self):
+        '''Current user'''
         current = {
             'username': self.username,
             'email': self.email,

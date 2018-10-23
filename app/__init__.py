@@ -26,3 +26,4 @@ def create_app():
     api.add_resource(
         AuthResource, '/api/v1/users/signin')
     return app
+    

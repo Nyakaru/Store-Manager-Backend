@@ -38,14 +38,13 @@ class UserResource(Resource):
                 if re.match(email_format, email):
                     for user in getattr(db, 'users'):
                         if user['email'] == email:
-                            return {"message": "username or email already in use"} ,409
-                        pass
+                            return {"message": "username or email already in use"}, 409
                     new_user = User(username=username, password=password, email=email, isAdmin=isAdmin, isAttendant=isAttendant)
                     new_user.save()
                     return {
                         'message': 'User registration successful',
                         'user': new_user.view()
-                    }, 201
-                return {"message": "Invalid email format"} ,400
-            return {"message": "bad username format"} ,400
-        return {"message": "pick a role"} ,400
+                        }, 201
+                return {"message": "Invalid email format"}, 400
+            return {"message": "bad username format"}, 400
+        return {"message": "pick a role"}, 400

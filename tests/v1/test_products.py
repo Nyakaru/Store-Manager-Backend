@@ -79,6 +79,7 @@ class TestproductResource(BaseCase):
         token = self.get_attendant_token()
         self.headers['Authorization'] = token
         response = self.client.post(PRODUCTS_URL, data=dumps(self.valid_product_data), headers=self.headers)
-        expected = 'This action requires an admin token.'
+        expected = 'You have insufficient permissions.'
         self.assertEqual(response.json.get('message'), expected)
         self.assertEqual(response.status_code, 403)
+        

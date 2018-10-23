@@ -35,3 +35,4 @@ class TestAuth(BaseCase):
         expected = {'message': 'Email/Password Invalid.'}
         self.assertEqual(expected['message'], loads(
             response.data.decode('utf-8'))['message'])
+        

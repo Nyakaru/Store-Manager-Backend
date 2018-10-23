@@ -93,4 +93,4 @@ class BaseCase(TestCase):
         '''Delete database and recreate it with no data.'''
         db.drop()
         self.app_context.pop()
-
+        

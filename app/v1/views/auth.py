@@ -1,5 +1,5 @@
 """User resource."""
-import re
+
 from hashlib import sha256
 
 from flask_restful import Resource, reqparse
@@ -24,5 +24,5 @@ class AuthResource(Resource):
             if email == user['email'] and password == user['password']:
                 new_user = User(**user)
                 token = new_user.generate_token()
-                return {'message': 'User login successful.', 'token': token }, 200
+                return {'message': 'User login successful.', 'token': token}, 200
         return {'message': 'Email/Password Invalid.'}, 400

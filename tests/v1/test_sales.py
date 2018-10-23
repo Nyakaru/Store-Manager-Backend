@@ -25,16 +25,16 @@ class TestsaleResource(BaseCase):
         token = self.get_admin_token()
         self.headers['Authorization'] = token
         response = self.client.post(SALES_URL, data=dumps(self.valid_product_data), headers=self.headers)
-        expected = 'This action requires an attendant token.'
+        expected = 'You have insufficient permissions.'
         self.assertEqual(response.json.get('message'), expected)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 403)
 
     def test_can_cannot_create_sale(self):
         '''Test the POST functionality for a product.'''
         response = self.client.post(SALES_URL, data=dumps(self.valid_product_data), headers=self.headers)
         expected = 'please provide a token'
         self.assertEqual(response.json.get('message'), expected)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 401)
     
     def test_empty_name_sale(self):
         # Using empty name.

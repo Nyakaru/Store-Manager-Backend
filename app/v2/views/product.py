@@ -10,8 +10,8 @@ from app.v2.models.products_model import Product
 from app.v2.decorators import login_required, admin_required
 
 
-class DBMroductResource(Resource):
-    '''Class for handling mroducts.'''
+class DBproductResource(Resource):
+    '''Class for handling products.'''
 
     parser = reqparse.RequestParser()
     parser.add_argument('name', required=True, type=str, help='Name (str) is required.')
@@ -54,52 +54,52 @@ class DBMroductResource(Resource):
         products = [Product.view(product) for product in products]
         return {'products': products}, 200
 
-    # @login_required
-    # @admin_required
-    # def put(self, mroduct_id):
-    #     ''' Edit a mroduct.'''
-    #     json_data = loads(request.data.decode())
-    #     name = json_data.get('name', None)
-    #     price = json_data.get('price', None)
-    #     new_data = {}
-    #     mroduct = Mroduct.get(id=mroduct_id)
+    @login_required
+    @admin_required
+    def put(self, product_id):
+        ''' Edit a product.'''
+        json_data = loads(request.data.decode())
+        name = json_data.get('name', None)
+        price = json_data.get('price', None)
+        new_data = {}
+        product = Product.get(id=product_id)
 
-    #     if name:
-    #         try:
-    #             int(name)
-    #             return {'message': "Invalid name!"}, 400
-    #         except:
-    #             if Mroduct.get(name=name):
-    #                 return {'message': "A mroduct with that name exists!"}, 409
-    #             elif isinstance(name, str):
-    #                 new_data.update({'name': name})
-    #             else:
-    #                 return {'message': 'Name should be a string.'}, 400
+        if name:
+            try:
+                int(name)
+                return {'message': "Invalid name!"}, 400
+            except:
+                if Product.get(name=name):
+                    return {'message': "A product with that name exists!"}, 409
+                elif isinstance(name, str):
+                    new_data.update({'name': name})
+                else:
+                    return {'message': 'Name should be a string.'}, 400
 
-    #     if price:
-    #         if isinstance(price, int):
-    #             new_data.update({'price': price})
-    #         else:
-    #             return {'message': 'Price should be an integer.'}, 400
+        if price:
+            if isinstance(price, int):
+                new_data.update({'price': price})
+            else:
+                return {'message': 'Price should be an integer.'}, 400
 
-    #     if mroduct:
-    #         id = mroduct_id
-    #         Mroduct.update(id=id, new_data=new_data)
-    #         mroduct = Mroduct.get(id=id)
-    #         # mroductn = Mroduct(name=mroduct[1],price=mroduct[2])
-    #         mroduct = Mroduct.view(mroduct)
-    #         return {
-    #             'message': 'Mroduct has been updated successfully.',
-    #             'new_mroduct': mroduct}, 200
-    #     return {'message': 'Mroduct does not exist.'}, 404
+        if product:
+            id = product_id
+            Product.update(id=id, new_data=new_data)
+            product = Product.get(id=id)
+            # product = Product(name=product[1],price=product[2])
+            product = Product.view(product)
+            return {
+                'message': 'Product has been updated successfully.',
+                'new_product': product}, 200
+        return {'message': 'Product does not exist.'}, 404
 
-    # @admin_required
-    # def delete(self, mroduct_id):
-    #     '''Delete a mroduct.'''
-    #     mroduct = Mroduct.get(id=mroduct_id)
-    #     if mroduct:
-    #         Mroduct.delete(mroduct_id)
-    #         return{
-    #             'message': 'Mroduct {} successfully deleted.'.format(mroduct_id)
-    #         }, 200
-    #     return {'message': 'Mroduct does not exist'}, 404
+    @admin_required
+    def delete(self, product_id):
+        '''Delete a product.'''
+        Product = Product.get(id=Product_id)
+        if product:
+            Product.delete(product_id)
+            return{
+                'message': 'Product {} successfully deleted.'.format(product_id)
+            }, 200
+        return {'message': 'Product does not exist'}, 404

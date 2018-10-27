@@ -7,8 +7,7 @@ from os import getenv
 from time import time
 from jwt import encode, decode
 
-from api.v2.connect_db import connect_to_db
-
+from app.v2.connect_db import connect_to_db
 
 conn = connect_to_db(getenv('APP_SETTINGS'))
 print(conn)

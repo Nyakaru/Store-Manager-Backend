@@ -2,7 +2,7 @@
 
 from functools import wraps
 from flask import request
-from api.v2.models.user_model import User
+from app.v2.models.user_models import User
 
 
 def login_required(func):

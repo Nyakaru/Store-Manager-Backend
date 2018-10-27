@@ -4,7 +4,7 @@ import re
 from flask import request
 from flask_restful import Resource, reqparse
 
-from api.v2.models.user_model import User
+from app.v2.models.user_models import User
 
 
 class DBAuthResource(Resource):

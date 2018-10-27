@@ -1,8 +1,8 @@
-'''Productss model.'''
+'''Products model.'''
 
 from os import getenv
 
-from api.v2.connect_to_db import connect_to_db
+from app.v2.connect_db import connect_to_db
 
 
 conn = connect_to_db(getenv('APP_SETTINGS'))
@@ -47,7 +47,7 @@ class Product(object):
         '''Delete a product from db.'''
         query = "DELETE FROM products WHERE id={}".format(id)
         cur.execute(query)
-        cls.save(cls)
+        
 
     @classmethod
     def update(cls, id, new_data):
@@ -58,12 +58,13 @@ class Product(object):
             """.format(key, val, id))
             cls.save(cls)
 
+
     @staticmethod
     def get(**kwargs):
         '''Get product by key'''
         for key, val in kwargs.items():
-            querry = "SELECT * FROM products WHERE {}='{}'".format(key, val)
-            cur.execute(querry)
+            query = "SELECT * FROM products WHERE {}='{}'".format(key, val)
+            cur.execute(query)
             product = cur.fetchone()
             return product
 

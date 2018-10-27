@@ -4,7 +4,9 @@ import re
 import json
 from flask_restful import Resource, reqparse
 
-from api.v2.models.user_model import User
+from app.v2.models.user_models import User
+from app.v2.decorators import super_user_required
+
 
 
 class DBUserResource(Resource):
@@ -19,7 +21,8 @@ class DBUserResource(Resource):
                         help='Password (str) is required.')
     parser.add_argument('confirm_password', required=True,
                         type=str, help='Password (str) is required.')
-
+    
+    @super_user_required
     def post(self):
         '''Create new user.'''
 

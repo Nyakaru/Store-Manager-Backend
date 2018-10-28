@@ -20,7 +20,6 @@ def create_app(configuration):
     app_context = app.app_context()
     app_context.push()
 
-
     from app.v2.views.users import DBUserResource
     from app.v2.views.auth import DBAuthResource
     from app.v2.views.product import DBProductResource
@@ -48,8 +47,3 @@ def create_app(configuration):
     app.register_blueprint(api_blueprint)
 
     return app
-
-from app.v2.connect_db import connect_to_db
-
-
-conn = connect_to_db()

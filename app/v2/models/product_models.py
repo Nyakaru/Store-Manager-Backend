@@ -6,7 +6,7 @@ from app.v2.connect_db import connect_to_db
 
 
 conn = connect_to_db(getenv('APP_SETTINGS'))
-#conn.set_session(autocommit=True)
+conn.set_session(autocommit=True)
 cur = conn.cursor()
 
 
@@ -18,6 +18,7 @@ class Product(object):
         self.id = None
         self.name = name
         self.price = price
+        
 
     def save(self):
         '''save item to db'''

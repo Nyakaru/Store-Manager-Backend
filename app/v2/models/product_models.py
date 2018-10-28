@@ -4,15 +4,13 @@ from os import getenv
 
 from app.v2.connect_db import connect_to_db
 
-from .base_models import BaseModel
-
 
 conn = connect_to_db(getenv('APP_SETTINGS'))
 conn.set_session(autocommit=True)
 cur = conn.cursor()
 
 
-class Product(BaseModel):
+class Product(object):
     '''product model.'''
 
     def __init__(self, name, price):
@@ -20,6 +18,11 @@ class Product(BaseModel):
         self.id = None
         self.name = name
         self.price = price
+        
+
+    def save(self):
+        '''save item to db'''
+        conn.commit()
 
     def add_product(self):
         '''Add product details to db table.'''
@@ -41,7 +44,7 @@ class Product(BaseModel):
         return products
 
     @classmethod
-    def delete(self, id):
+    def delete(cls, id):
         '''Delete a product from db.'''
         query = "DELETE FROM products WHERE id={}".format(id)
         cur.execute(query)

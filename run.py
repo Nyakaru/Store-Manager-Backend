@@ -2,7 +2,9 @@
 import os
 
 from app import create_app
+from app.v2.connect_db import connect_to_db 
 from app.v2.models.user_models import User as User2
+from app.v2.connect_db import create_databases, create
 
 
 # create super user with db
@@ -16,7 +18,10 @@ else:
     pass
 
 # run application
+create_databases()
+create()
 configuration = os.getenv('APP_SETTINGS')
 app = create_app(configuration)
 port = os.getenv('PORT')
+
 app.run(debug=True, host='0.0.0.0', port=port)

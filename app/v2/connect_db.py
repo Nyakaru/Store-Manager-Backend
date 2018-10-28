@@ -42,7 +42,7 @@ def create_databases():
 def connect_to_db(db=None):
     '''create a connection to the right db.'''
 
-    if db == 'testing':
+    if db == 'development':
         db_name = os.getenv('DEV_DB')
     else:
         db_name = os.getenv('DEV_DB')

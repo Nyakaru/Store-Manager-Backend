@@ -10,7 +10,7 @@ from jwt import encode, decode
 from app import conn
 
 
-conn.set_session(autocommit=True)
+#conn.set_session(autocommit=True)
 cur = conn.cursor()
 
 class Roles:

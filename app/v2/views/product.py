@@ -18,7 +18,7 @@ class DBProductResource(Resource):
     parser.add_argument('price', required=True, type=int, help='Price (int) is required.')
 
     #@super_user_required
-    @admin_required
+    #@admin_required
     def post(self):
         '''Create a new product.'''
         arguments = DBProductResource.parser.parse_args()
@@ -58,7 +58,7 @@ class DBProductResource(Resource):
 
     
     #@super_user_required
-    @admin_required
+    #@admin_required
     def put(self, product_id):
         ''' Edit a product.'''
         json_data = loads(request.data.decode())
@@ -107,7 +107,7 @@ class DBProductResource(Resource):
         return {'message': 'Product does not exist.'}, 404
     
     #@super_user_required
-    @admin_required
+    #@admin_required
     def delete(self, product_id):
         '''Delete a product.'''
         product = Product.get(id=product_id)

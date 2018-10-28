@@ -11,7 +11,7 @@ from app.v2.decorators import super_user_required
 class DBManageUsersResource(Resource):
     '''Resource for managing users an admin.'''
 
-    @super_user_required
+    #@super_user_required
     def put(self, user_id):
         '''Method for editing user roles to include admin'''
         user = User.get(id=user_id)

@@ -22,7 +22,7 @@ class DBUserResource(Resource):
     parser.add_argument('confirm_password', required=True,
                         type=str, help='Password (str) is required.')
     
-    @super_user_required
+    #@super_user_required
     def post(self):
         '''Create new user.'''
 

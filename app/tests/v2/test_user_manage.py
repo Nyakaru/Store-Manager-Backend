@@ -11,14 +11,9 @@ class TestUserManagement(BaseCase):
 
     def test_user_can_be_promoted(self):
         # create user
+        self.user1.add_user()
         token = self.get_super_user_token()
         headers = {'Authorization': 'Bearer {}'.format(token)}
-        response = self.client.post(
-            '/api/v2/users/signup', data=self.user_data_1)
-        # confirm creation
-        self.assertEqual(201, response.status_code)
-        # get super user token
-        
         # test user promoted
         response = self.client.put(MNG_URL, headers=headers)
         self.assertEqual(response.status_code, 200)

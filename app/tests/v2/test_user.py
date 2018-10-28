@@ -59,7 +59,7 @@ class TestUser(BaseCase):
         token = self.get_super_user_token()
         headers = {'Authorization': 'Bearer {}'.format(token)}
         response = self.client.post(
-            '/api/v2/users/signup', data=self.user_data_3, headers=headers)
+            '/api/v2/users/signup', data=self.user_data_4, headers=headers)
         self.assertEqual(400, response.status_code)
         expected = {
             'message': 'Invalid password. Password should be 8 or more characters long.'}

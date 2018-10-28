@@ -5,7 +5,7 @@ import psycopg2
 from app.v2.models.product_models import Product
 from app.v2.models.user_models import User
 from app.v2.connect_db import create, connect_to_db
-from app import create_app
+from app import create_app, conn
 
 
 class BaseCase(TestCase):
@@ -18,6 +18,8 @@ class BaseCase(TestCase):
         self.client = self.app.test_client()
         self.app_context = self.app.app_context()
         self.app_context.push()
+
+
         self.user1 = User(
             username='user1',
             email='user1@email.com',
@@ -47,6 +49,12 @@ class BaseCase(TestCase):
             'email': 'user3mail.com',
             'password': 'password',
             'confirm_password': 'password'
+        }
+        self.user_data_4 = {
+            'username': 'user4',
+            'email': 'user4@mail.com',
+            'password': 'pas',
+            'confirm_password': 'pas'
         }
 
         self.valid_product_data = {
@@ -90,12 +98,12 @@ class BaseCase(TestCase):
     def tearDown(self):
         '''Delete database and recreate it with no data.'''
 
-        conn = connect_to_db('testing')
         cur = conn.cursor()
         cur.execute("""DROP TABLE IF EXISTS users CASCADE;""")
         cur.execute(  """DROP TABLE IF EXISTS  products CASCADE;""")
         cur.execute(  """DROP TABLE IF EXISTS  roles CASCADE;""")
         cur.execute(  """DROP TABLE IF EXISTS user_roles CASCADE;""")
+        cur.close()
         conn.commit()
-        conn.close()
+
         

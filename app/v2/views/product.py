@@ -62,25 +62,31 @@ class DBProductResource(Resource):
     def put(self, product_id):
         ''' Edit a product.'''
         json_data = loads(request.data.decode())
-        name = json_data.get('name', None)
-        price = json_data.get('price', None)
+        name = json_data.get('name')
+        price = json_data.get('price')
         new_data = {}
         product = Product.get(id=product_id)
+        print(product)
+        product = Product(name=product[1], price=product[2])
 
 
 
         if name:
+            name = str(name)
+           
             try:
                 int(name)
                 return {'message': "Invalid name!"}, 400
+                
+                
             except:
                 if Product.get(name=name):
                     return {'message': "A product with that name exists!"}, 409
                 elif isinstance(name, str):
                     new_data.update({'name': name})
+
                 else:
                     return {'message': 'Name should be a string.'}, 400
-
 
         if price:
             if isinstance(price, int):
@@ -90,7 +96,8 @@ class DBProductResource(Resource):
 
         if product:
             id = product_id
-            Product.update(id=id, new_data=new_data)
+            product.update(id, new_data)
+            product.save()
             product = Product.get(id=id)
             # product = Product(name=product[1],price=product[2])
             product = Product.view(product)

@@ -23,7 +23,7 @@ class TestAuth(BaseCase):
     
 
     def test_wrong_password(self):
-
+        self.user1.add_user()
         # test signin with wrong password
         response = self.client.post(
             '/api/v2/users/signin',

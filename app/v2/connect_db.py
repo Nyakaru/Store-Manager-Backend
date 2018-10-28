@@ -18,7 +18,7 @@ def check_if_db_exists(db_name):
 def create_databases():
     
     default_conn = connect(
-        database=os.getenv('db_name'),
+        database=os.getenv('D_DB'),
         user='postgres',
         password=os.getenv('PASSWORD'),
         host=os.getenv('HOST'))
@@ -35,11 +35,15 @@ def create_databases():
         query = "CREATE DATABASE {}".format(test_db)
         cur.execute(query)  
     
+
+#     dev_db = "CREATE DATABASE IF NOT EXISTS " + os.getenv('DEV_DB')
+#     test_db = "CREATE DATABASE IF NOT EXISTS " + os.getenv('DEV_DB')
+
 def connect_to_db(db=None):
     '''create a connection to the right db.'''
 
     if db == 'testing':
-        db_name = os.getenv('TESTING_DB')
+        db_name = os.getenv('DEV_DB')
     else:
         db_name = os.getenv('DEV_DB')
         
@@ -118,10 +122,9 @@ def create(db=None):
     conn.set_session(autocommit=True)
     cur = conn.cursor()
 
-    cur.execute("""DROP TABLE IF EXISTS users CASCADE;""")
-    cur.execute( """DROP TABLE IF EXISTS  products CASCADE;""")
-    cur.execute( """DROP TABLE IF EXISTS  roles CASCADE;""")
-    cur.execute( """DROP TABLE IF EXISTS user_roles CASCADE;""")
+    cur.execute(
+        """DROP TABLE IF EXISTS users, products, roles, user_roles CASCADE
+        """)
 
     # create the tables
     user_table(cur)
@@ -132,9 +135,12 @@ def create(db=None):
 
     cur.close()
     conn.commit()
-    conn.close()
+    
+
 
 if __name__ == '__main__':
     create_databases()
     create()
-    
+
+
+

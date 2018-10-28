@@ -2,9 +2,10 @@
 
 from os import getenv
 
-from app import conn
+from app.v2.connect_db import connect_to_db
 
 
+conn = connect_to_db(getenv('APP_SETTINGS'))
 conn.set_session(autocommit=True)
 cur = conn.cursor()
 

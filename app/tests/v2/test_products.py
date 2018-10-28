@@ -101,7 +101,6 @@ class TestproductResource(BaseCase):
         self.product1.add_product()
         response = self.client.get(Product_URL)
         self.assertEqual(response.status_code, 200)
-        print response.data
         expected = 'Product found.'
         self.assertEqual(loads(response.data.decode('utf-8'))
                          ['message'], expected)

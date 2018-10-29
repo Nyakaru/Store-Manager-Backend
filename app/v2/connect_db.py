@@ -104,7 +104,8 @@ def products_table(cur):
         CREATE TABLE products(
             id serial PRIMARY KEY,
             name VARCHAR NOT NULL UNIQUE,
-            price INTEGER NOT NULL
+            price INTEGER NOT NULL,
+            quantity INTEGER NOT NULL
         );
         """
     )

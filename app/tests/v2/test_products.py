@@ -67,6 +67,18 @@ class TestproductResource(BaseCase):
         self.assertEqual(
             loads(response.data.decode('utf-8'))['message']['price'], expected)
 
+
+    def test_invalid_quantity(self):
+        token = self.get_admin_token()
+        headers = {'Authorization': 'Bearer {}'.format(token)}
+        self.invalid_product_data.update({'name': 'product 1', 'price':20})
+        response = self.client.post(
+            Products_URL, data=self.invalid_product_data, headers=headers)
+        self.assertEqual(response.status_code, 400)
+        expected = 'Quantity (int) is required.'
+        self.assertEqual(
+            loads(response.data.decode('utf-8'))['message']['quantity'], expected)
+
     def test_only_admin_can_create_a_product(self):
         # Test only an admin can create a product.
         token = self.get_user_token()

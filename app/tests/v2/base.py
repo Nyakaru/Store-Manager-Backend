@@ -26,7 +26,8 @@ class BaseCase(TestCase):
             password='pass#123')
         self.product1 = Product(
             name='Product1',
-            price=100
+            price=100,
+            quantity=10
         )
         self.product1.save()
         
@@ -59,15 +60,18 @@ class BaseCase(TestCase):
 
         self.valid_product_data = {
             'name': 'Product2',
-            'price': 100
+            'price': 100,
+            'quantity':30
         }
         self.valid_product_data2 = {
             'name': 'Product3',
-            'price': 100
+            'price': 100,
+            'quantity':20
         }
         self.invalid_product_data = {
             'name': None,
-            'price': None
+            'price': None,
+            'quantity':None
         }
 
     def get_user_token(self):

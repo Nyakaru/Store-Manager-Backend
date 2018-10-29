@@ -13,11 +13,12 @@ cur = conn.cursor()
 class Product(object):
     '''product model.'''
 
-    def __init__(self, name, price):
+    def __init__(self, name, price,quantity):
         '''Initialize a product.'''
         self.id = None
         self.name = name
         self.price = price
+        self.quantity = quantity
         
 
     def save(self):
@@ -28,10 +29,10 @@ class Product(object):
         '''Add product details to db table.'''
         cur.execute(
             """
-            INSERT INTO products(name, price)
-            VALUES(%s,%s)
+            INSERT INTO products(name, price, quantity)
+            VALUES(%s,%s,%s)
             """,
-            (self.name, self.price)
+            (self.name, self.price, self.quantity)
         )
         self.save()
 
@@ -75,5 +76,6 @@ class Product(object):
         return {
             'id': id,
             'name': product[1],
-            'price': product[2]
+            'price': product[2],
+            'quantity':product[3]
         }

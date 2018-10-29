@@ -16,6 +16,8 @@ class DBProductResource(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('name', required=True, type=str, help='Name (str) is required.')
     parser.add_argument('price', required=True, type=int, help='Price (int) is required.')
+    parser.add_argument('quantity', required=True, type=int, help='Quantity (int) is required.')
+
 
     #@super_user_required
     @admin_required
@@ -24,6 +26,7 @@ class DBProductResource(Resource):
         arguments = DBProductResource.parser.parse_args()
         name = arguments.get('name')
         price = arguments.get('price')
+        quantity = arguments.get('quantity')
         name_format = re.compile(r"([a-zA-Z0-9])")
 
         if not re.match(name_format, name):
@@ -32,7 +35,7 @@ class DBProductResource(Resource):
         product_exists = Product.get(name=name)
         if product_exists:
             return {'message': 'Product with that name already exists.'},409
-        product = Product(name=name, price=price)
+        product = Product(name=name, price=price, quantity=quantity)
         product.add_product()
         product = Product.get(name=name)
         return {'message': 'Product successfully added.', 'product': Product.view(product)}, 201
@@ -64,13 +67,10 @@ class DBProductResource(Resource):
         json_data = loads(request.data.decode())
         name = json_data.get('name')
         price = json_data.get('price')
+        quantity = json_data.get('quantity')
         new_data = {}
         product = Product.get(id=product_id)
-        print(product)
-        product = Product(name=product[1], price=product[2])
-
-
-
+        product = Product(name=product[1], price=product[2], quantity=product[3])
         if name:
             name = str(name)
            
@@ -93,6 +93,12 @@ class DBProductResource(Resource):
                 new_data.update({'price': price})
             else:
                 return {'message': 'Price should be an integer.'}, 400
+        if quantity:
+            if isinstance(quantity, int):
+                new_data.update({'quantity': quantity})
+            else:
+                return {'message': 'Quantity should be an integer.'}, 400
+
 
         if product:
             id = product_id

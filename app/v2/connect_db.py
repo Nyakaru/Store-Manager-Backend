@@ -18,11 +18,12 @@ def check_if_db_exists(db_name):
 def create_databases():
     
     default_conn = connect(
-        database=os.getenv('D_DB'),
+        database=os.getenv('DEV_DB'),
         user='postgres',
         password=os.getenv('PASSWORD'),
         host=os.getenv('HOST'))
     default_conn.set_session(autocommit=True)
+
     cur = default_conn.cursor()
     dev_db = os.getenv('DEV_DB')
     test_db = os.getenv('TESTING_DB')

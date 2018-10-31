@@ -19,6 +19,7 @@ class DevelopmentConfig(Config):
     """Configuration for development environment."""
 
     DEBUG = False
+    DATABASE_URL = os.getenv("DATABASE_URL")
 
 
 configurations = {

@@ -4,6 +4,7 @@ import psycopg2
 
 from app.v2.models.product_models import Product
 from app.v2.models.user_models import User
+from app.v2.models.sale_models import Sale
 from app.v2.connect_db import create, connect_to_db
 from app import create_app
 
@@ -30,6 +31,7 @@ class BaseCase(TestCase):
             quantity=10
         )
         self.product1.save()
+        self.sale1 = Sale(user_id=1, product_dict={1:1})
         
         self.user_data_1 = {
             'username': 'user3',
@@ -99,15 +101,15 @@ class BaseCase(TestCase):
 
         return superuser.generate_token(id=superuser_id)
 
-    def tearDown(self):
-        '''Delete database and recreate it with no data.'''
-        conn = connect_to_db('testing')
-        cur = conn.cursor()
-        cur.execute("""DROP TABLE IF EXISTS users CASCADE;""")
-        cur.execute(  """DROP TABLE IF EXISTS  products CASCADE;""")
-        cur.execute(  """DROP TABLE IF EXISTS  roles CASCADE;""")
-        cur.execute(  """DROP TABLE IF EXISTS user_roles CASCADE;""")
-        cur.close()
-        conn.commit()
+    # def tearDown(self):
+    #     '''Delete database and recreate it with no data.'''
+    #     conn = connect_to_db('testing')
+    #     cur = conn.cursor()
+    #     cur.execute("""DROP TABLE IF EXISTS users CASCADE;""")
+    #     cur.execute(  """DROP TABLE IF EXISTS  products CASCADE;""")
+    #     cur.execute(  """DROP TABLE IF EXISTS  roles CASCADE;""")
+    #     cur.execute(  """DROP TABLE IF EXISTS user_roles CASCADE;""")
+    #     cur.close()
+    #     conn.commit()
 
         

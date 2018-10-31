@@ -110,6 +110,34 @@ def products_table(cur):
         """
     )
 
+def sales_table(cur):
+    '''Define sales table.'''
+    cur.execute(
+        """
+        CREATE TABLE sales(
+            id serial PRIMARY KEY,
+            user_id INTEGER NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        );
+        """
+    )
+
+def sale_item(cur):
+    '''Create sale item.'''
+    cur.execute(
+        """
+        CREATE TABLE sale_items(
+            id serial PRIMARY KEY,
+            product_id INTEGER NOT NULL,
+            sale_id INTEGER NOT NULL,
+            quantity INTEGER NOT NULL,
+            FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+            FOREIGN KEY (sale_id) REFERENCES sales(id) ON DELETE CASCADE
+        );
+        """
+    )
+
+
 def make_roles(cur, conn):
     '''Add admin, user and superuser roles to the roles table.'''
     cur.execute("INSERT INTO roles(name)  VALUES('user')")
@@ -124,7 +152,7 @@ def create(db=None):
     cur = conn.cursor()
 
     cur.execute(
-        """DROP TABLE IF EXISTS users, products, roles, user_roles CASCADE
+        """DROP TABLE IF EXISTS users, products, sales, roles, user_roles, sale_items CASCADE
         """)
 
     # create the tables
@@ -132,6 +160,8 @@ def create(db=None):
     roles(cur)
     user_roles(cur)
     products_table(cur)
+    sales_table(cur)
+    sale_item(cur)
     make_roles(cur, conn)
 
     cur.close()

@@ -2,6 +2,7 @@
 
 from flask import Flask, Blueprint
 from flask_restful import Api
+from flask_cors import CORS
 
 from config import configurations
 from app.v1.views.products import ProductResource
@@ -49,4 +50,6 @@ def create_app(configuration):
 
     app.register_blueprint(api_blueprint)
 
+    cors = CORS(app, resources={r'/api/*': {'origins': '*'}},
+                supports_credentials=True)
     return app

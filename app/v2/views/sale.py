@@ -54,3 +54,34 @@ class DBSaleResource(Resource):
             'sale_id': sale_id,
             'products': Sale.get_products(sale_id)
         }, 201
+
+    @login_required
+    def get(self, sale_id=None):
+        '''Get sales.'''
+        authorization_header = request.headers.get('Authorization')
+        access_token = authorization_header.split(' ')[1]
+        payload = User.decode_token(token=access_token)
+        roles, user_id = payload['roles'], payload['user_id']
+        is_admin = 'admin' in roles
+        if sale_id:
+            sale = Sale.get(id=sale_id)
+            if sale is None:
+                return {'message': 'Sale not found.'}, 404
+            if sale[1] == user_id or is_admin:
+                return {'message': 'Sale found.', 'sale': Sale.view(sale)}, 200
+            else:
+                return {
+                    'message': 'You do not have permission to see this sale.'
+                }, 403
+        else:
+            if is_admin:
+                sales = Sale.get_all()
+                sales = [Sale.view(sale) for sale in sales]
+                return {'message': "Sales found.", 'sales': sales},200
+            else:
+                sales = Sale.get_all_by_user_id(user_id=user_id)
+                if len(sales) == 0:
+                    return {'message': 'Sales not found'}, 404
+                sales = [Sale.view(sale) for sale in sales]
+                return {'message': 'Sales found.', 'sales': sales}, 200
+

@@ -25,7 +25,6 @@ Flask-JWT-Extended==3.13.1
 Flask-RESTful==0.3.6
 Flask-Script==2.0.6
 funcsigs==1.0.2
-futures==3.2.0
 gunicorn==19.9.0
 idna==2.7
 ipaddress==1.0.22
@@ -51,7 +50,6 @@ pyasn1==0.4.4
 pycairo==1.16.2
 pycparser==2.19
 pycrypto==2.6.1
-pygobject==3.26.1
 pyinotify==0.9.6
 PyJWT==1.6.4
 pylint==1.9.3
@@ -67,7 +65,6 @@ SecretStorage==2.3.1
 simplejson==3.13.2
 singledispatch==3.4.0.3
 six==1.11.0
-unity-lens-photos==1.0
 urllib3==1.24
 virtualenv==16.0.0
 Werkzeug==0.14.1

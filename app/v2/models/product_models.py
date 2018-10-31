@@ -69,6 +69,12 @@ class Product(object):
             product = cur.fetchone()
             return product
 
+    @classmethod
+    def get_cost(cls, product_id, quantity=1):
+        '''Calculate the cost of a product given price and quantity'''
+        price = cls.get(id=product_id)[2]
+        return price*quantity
+
     @staticmethod
     def view(product):
         '''View a product information.'''

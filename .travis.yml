@@ -8,6 +8,9 @@ install:
 
 before_script:
   - export APP_SECRET_KEY="something"
+  - psql -c "CREATE DATABASE development;" -U postgres
+  - psql -l;
+  
 
 script: 
   

@@ -6,7 +6,7 @@ import os
 class Config(object):
     """Base config class."""
 
-    SECRET_KEY = os.environ['APP_SECRET_KEY']
+    SECRET_KEY = os.environ.get('APP_SECRET_KEY')
 
 
 class TestingConfig(Config):

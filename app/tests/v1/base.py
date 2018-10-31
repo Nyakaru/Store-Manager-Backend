@@ -10,7 +10,7 @@ class BaseCase(TestCase):
 
     def setUp(self):
         '''Set up test application.'''
-        self.app = create_app()
+        self.app = create_app('testing')
         self.client = self.app.test_client()
         self.app_context = self.app.app_context()
         self.app_context.push()

@@ -17,24 +17,12 @@ def check_if_db_exists(db_name):
 
 def create_databases():
     
-    default_conn = connect(
-        database=os.getenv('DEV_DB'),
-        user='postgres',
-        password=os.getenv('PASSWORD'),
-        host=os.getenv('HOST'))
+    default_conn = connect(os.getenv('DEV_DB'))
     default_conn.set_session(autocommit=True)
 
     cur = default_conn.cursor()
     dev_db = os.getenv('DEV_DB')
     test_db = os.getenv('TESTING_DB')
-
-    if check_if_db_exists(dev_db) is False:
-        query = "CREATE DATABASE {}".format(dev_db)
-        cur.execute(query)
-    
-    if check_if_db_exists(test_db) is False:
-        query = "CREATE DATABASE {}".format(test_db)
-        cur.execute(query)  
     
 
 #     dev_db = "CREATE DATABASE IF NOT EXISTS " + os.getenv('DEV_DB')
@@ -42,19 +30,10 @@ def create_databases():
 
 def connect_to_db(db=None):
     '''create a connection to the right db.'''
-
-    if db == 'development':
-        db_name = os.getenv('DEV_DB')
-    else:
-        db_name = os.getenv('DEV_DB')
         
     try:
 
-        return connect(
-            database=db_name,
-            user=os.getenv('USER'),
-            password=os.getenv('PASSWORD'),
-            host=os.getenv('HOST'))
+        return connect(os.getenv('DEV_DB'))
     except:
         return "Unable to connect"
 
